@@ -1,10 +1,20 @@
 import { useState } from "react";
+import { useAuth } from "../contexts/authentication";
 
 function RegisterPage() {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
+
+const { register } = useAuth();
+event.preventDefault();
+register({
+  username,
+  password,
+  firstName,
+  lastName,
+});
 
   const handleSubmit = (event) => {
     event.preventDefault();
