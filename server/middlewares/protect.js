@@ -3,24 +3,24 @@
 // เพื่อเอาไว้ตรวจสอบว่า Client แนบ Token มาใน Header ของ Request หรือไม่
 import jwt from "jsonwebtoken";
 
-const protect = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
+export const protect = async (req, res, next) => {
+  const token = req.headers.authorization;
 
-  if (!token) {
+  if (!token || !token.startsWith("Bearer ")) {
     return res.status(401).json({
-      message: "Unauthorized",
+      message: "Token has invalid format",
     });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = decoded;
+  const tokenWithoutBearer = token.split(" ")[1];
+
+  jwt.verify(tokenWithoutBearer, process.env.SECRET_KEY, (err, payload) => {
+    if (err) {
+      return res.status(401).json({
+        message: "Token is invalid",
+      });
+    }
+    req.user = payload;
     next();
-  } catch (error) {
-    return res.status(403).json({
-      message: "Forbidden",
-    });
-  }
+  });
 };
-
-export default protect;
