@@ -8,16 +8,16 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
 
 const { register } = useAuth();
-event.preventDefault();
-register({
-  username,
-  password,
-  firstName,
-  lastName,
-});
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    register({
+      username,
+      password,
+      firstName,
+      lastName,
+    });
     // 🐨 Todo: Exercise #2
     // นำ Function `register` ใน AuthContext มา Execute ใน Event Handler ตรงนี้
   };
